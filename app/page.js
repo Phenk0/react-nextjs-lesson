@@ -1,8 +1,8 @@
 import MeetupList from "@/components/meetups/MeetupList";
-import { getData } from "@/utils/get-meetups";
+import { getMeetups } from "@/utils/get-meetups";
 
 export default async function HomePage() {
-  const meetups = await getData();
+  const meetups = await getMeetups();
 
   return <MeetupList meetups={meetups} />;
 }

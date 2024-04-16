@@ -1,5 +1,6 @@
 import MeetupDetail from "@/components/meetups/meetup-detail";
 import { getMeetup } from "@/utils/get-meetup";
+import { getMeetups } from "@/utils/get-meetups";
 
 export default async function MeetupIdPage({ params }) {
   const { image, title, description, address } = await getMeetup(
@@ -19,9 +20,8 @@ export default async function MeetupIdPage({ params }) {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  // const topics = await db.topic.findMany();
-  // return topics.map((topic) => ({
-  //   slug: topic.slug
-  // }));
-  return [{ meetupId: "m1" }];
+  const meetupsIds = await getMeetups();
+  return meetupsIds.map((meetup) => ({
+    slug: meetup.id,
+  }));
 }

@@ -1,14 +1,16 @@
-export async function GET() {
-  const res = await fetch(
-    "https://eliftech-delivery-app-72f3f-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        // "API-Key": process.env.DATA_API_KEY,
-      },
-    },
-  );
-  const data = await res.json();
+import { MongoClient } from "mongodb";
 
-  return Response.json({ data });
+const uri =
+  "mongodb+srv://romansparkhomenko:lgiirX07W243tWaw@cluster0.vlkbcih.mongodb.net/meetups?retryWrites=true&w=majority";
+const client = await MongoClient.connect(uri);
+console.log(1);
+const db = await client.db();
+
+export async function GET() {
+  const meetups = await db.collection("meetups-list");
+  const meetupsList = await meetups.find();
+
+  console.log(meetups);
+
+  return Response.json({ meetupsList });
 }
