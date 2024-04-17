@@ -1,4 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
+import { notFound } from "next/navigation";
 
 export async function getMeetup(id) {
   const client = await MongoClient.connect(
@@ -7,13 +8,21 @@ export async function getMeetup(id) {
   const db = await client.db();
   const meetupsCollection = await db.collection("meetups-list");
 
+  if (!ObjectId.isValid(id)) {
+    notFound();
+  }
+
   const meetup = await meetupsCollection.findOne({
     _id: new ObjectId(id),
   });
 
+  if (!meetup) {
+    notFound();
+  }
+
   await client.close();
   return {
-    // id: meetup._id.toString(),
+    id: meetup._id.toString(),
     title: meetup.title,
     image: meetup.image,
     address: meetup.address,

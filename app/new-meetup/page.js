@@ -1,6 +1,6 @@
 "use client";
 import NewMeetupForm from "@/components/meetups/NewMeetupForm";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function NewMeetupPage() {
   const router = useRouter();

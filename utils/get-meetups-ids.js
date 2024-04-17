@@ -1,7 +1,5 @@
 import { MongoClient } from "mongodb";
 
-export const revalidate = 60;
-
 export async function getMeetupsIds() {
   const client = await MongoClient.connect(
     "mongodb+srv://romansparkhomenko:lgiirX07W243tWaw@cluster0.vlkbcih.mongodb.net/meetups?retryWrites=true&w=majority/",

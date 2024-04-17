@@ -2,6 +2,9 @@ import MeetupDetail from "@/components/meetups/meetup-detail";
 import { getMeetup } from "@/utils/get-meetup";
 import { getMeetupsIds } from "@/utils/get-meetups-ids";
 
+// export const runtime = "edge";
+// export const revalidate = 1;
+
 export default async function MeetupIdPage({ params }) {
   const { meetupId } = params;
   const { image, title, description, address } = await getMeetup(meetupId);
@@ -15,13 +18,13 @@ export default async function MeetupIdPage({ params }) {
   );
 }
 
-// If generateStaticParams do Not return specific ID then its Page is Not Found
-export const dynamicParams = false;
+// If generateStaticParams do Not return specific ID then its Page is Not Found(and revalidate only on redeploy(rebuild) time)
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const meetupsIds = await getMeetupsIds();
   return meetupsIds.map((meetup) => ({
-    slug: meetup.id,
+    meetupId: meetup.id,
   }));
 }
 export async function generateMetadata({ params }) {
