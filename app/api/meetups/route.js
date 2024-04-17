@@ -8,7 +8,7 @@ const db = await client.db();
 
 export async function GET() {
   const meetups = await db.collection("meetups-list");
-  const meetupsList = await meetups.find();
+  const meetupsList = await meetups.find().toArray();
 
   console.log(meetups);
 

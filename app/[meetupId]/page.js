@@ -1,11 +1,10 @@
 import MeetupDetail from "@/components/meetups/meetup-detail";
 import { getMeetup } from "@/utils/get-meetup";
-import { getMeetups } from "@/utils/get-meetups";
+import { getMeetupsIds } from "@/utils/get-meetups-ids";
 
 export default async function MeetupIdPage({ params }) {
-  const { image, title, description, address } = await getMeetup(
-    params.meetupId,
-  );
+  const { meetupId } = params;
+  const { image, title, description, address } = await getMeetup(meetupId);
   return (
     <MeetupDetail
       image={image}
@@ -20,8 +19,16 @@ export default async function MeetupIdPage({ params }) {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const meetupsIds = await getMeetups();
+  const meetupsIds = await getMeetupsIds();
   return meetupsIds.map((meetup) => ({
     slug: meetup.id,
   }));
+}
+export async function generateMetadata({ params }) {
+  const { meetupId } = params;
+  const { title } = await getMeetup(meetupId);
+  return {
+    title: `Meetup: ${title}`,
+    description: "Lesson was taught by Max",
+  };
 }
