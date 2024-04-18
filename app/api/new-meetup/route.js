@@ -1,13 +1,16 @@
 import { MongoClient } from "mongodb";
 import { revalidatePath } from "next/cache";
 
-const uri =
-  "mongodb+srv://romansparkhomenko:lgiirX07W243tWaw@cluster0.vlkbcih.mongodb.net/meetups?retryWrites=true&w=majority";
-
 export async function POST(req) {
   const data = await req.json();
   try {
-    const client = await MongoClient.connect(uri);
+    const url = process.env.MONGODB_URI.replace(
+      "<password>",
+      process.env.MONGODB_PASSWORD,
+    );
+    const client = await MongoClient.connect(
+      `${url}?retryWrites=true&w=majority/`,
+    );
     const db = await client.db();
     const meetupsCollection = await db.collection("meetups-list");
 

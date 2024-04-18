@@ -1,8 +1,12 @@
 import { MongoClient } from "mongodb";
 
 export async function getMeetupsIds() {
+  const url = process.env.MONGODB_URI.replace(
+    "<password>",
+    process.env.MONGODB_PASSWORD,
+  );
   const client = await MongoClient.connect(
-    "mongodb+srv://romansparkhomenko:lgiirX07W243tWaw@cluster0.vlkbcih.mongodb.net/meetups?retryWrites=true&w=majority/",
+    `${url}?retryWrites=true&w=majority/`,
   );
   const db = await client.db();
   const meetupsCollection = await db.collection("meetups-list");
