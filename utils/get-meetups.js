@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { revalidatePath } from "next/cache";
 
 export async function getMeetups() {
   const url = process.env.MONGODB_URI.replace(
@@ -12,6 +13,8 @@ export async function getMeetups() {
   const meetupsCollection = await db.collection("meetups-list");
 
   const meetups = await meetupsCollection.find().toArray();
+
+  revalidatePath("/");
 
   await client.close();
   return meetups.map((meetup) => ({
